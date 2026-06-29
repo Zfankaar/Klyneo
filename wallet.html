@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Wallet – Ad Meva</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    *{margin:0;padding:0;box-sizing:border-box}
+    body {
+      font-family: 'Inter', sans-serif;
+      background: #fffde7;
+      min-height: 100vh;
+    }
+    .header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 4px 40px;
+      border-bottom: 2px solid #000;
+      background: #fff;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    .header .left {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .header .left img {
+      height: 50px;
+      width: auto;
+      object-fit: contain;
+    }
+    .header .left span {
+      font-size: 18px;
+      font-weight: 900;
+      color: #000;
+      letter-spacing: -0.5px;
+    }
+    .header .right {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+    .header .right .user-name {
+      font-size: 13px;
+      font-weight: 700;
+      color: #000;
+    }
+    .header .right .back-link {
+      padding: 6px 16px;
+      border: 2px solid #000;
+      background: transparent;
+      font-size: 11px;
+      font-weight: 700;
+      font-family: inherit;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      cursor: pointer;
+      color: #000;
+      text-decoration: none;
+      transition: all 0.3s;
+    }
+    .header .right .back-link:hover {
+      background: #000;
+      color: #fff;
+    }
+
+    .main {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 40px 24px 60px;
+    }
+
+    .bal-card {
+      background: #ffd600;
+      border: 3px solid #000;
+      padding: 32px 36px;
+      box-shadow: 12px 12px 0 #000;
+      margin-bottom: 40px;
+    }
+    .bal-card .lbl {
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      color: rgba(0,0,0,0.4);
+    }
+    .bal-card .amt {
+      font-size: 52px;
+      font-weight: 900;
+      color: #000;
+      letter-spacing: -2px;
+      margin-top: 4px;
+    }
+    .bal-card .amt span {
+      font-size: 20px;
+      font-weight: 700;
+      color: rgba(0,0,0,0.3);
+      margin-left: 4px;
+    }
+    .bal-card .row {
+      display: flex;
+      gap: 40px;
+      margin-top: 16px;
+    }
+    .bal-card .row div .val {
+      font-size: 18px;
+      font-weight: 800;
+      color: #000;
+    }
+    .bal-card .row div .lbl2 {
+      font-size: 11px;
+      font-weight: 600;
+      color: rgba(0,0,0,0.3);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .section-title {
+      font-size: 20px;
+      font-weight: 800;
+      color: #000;
+      margin-bottom: 20px;
+    }
+
+    .quick-actions {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      margin-bottom: 40px;
+    }
+    .quick-actions .qa {
+      background: #fff;
+      border: 3px solid #000;
+      padding: 24px;
+      text-align: center;
+      box-shadow: 6px 6px 0 #000;
+      text-decoration: none;
+      cursor: pointer;
+      transition: all 0.25s;
+    }
+    .quick-actions .qa:hover {
+      transform: translate(-3px, -3px);
+      box-shadow: 10px 10px 0 #000;
+      background: #ffd600;
+    }
+    .quick-actions .qa .icon {
+      margin-bottom: 6px;
+    }
+    .quick-actions .qa .label {
+      font-size: 13px;
+      font-weight: 800;
+      color: #000;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .transactions {
+      background: #fff;
+      border: 3px solid #000;
+      box-shadow: 8px 8px 0 #000;
+      padding: 28px 32px;
+    }
+    .transactions .tabs {
+      display: flex;
+      gap: 0;
+      margin-bottom: 20px;
+      border-bottom: 2px solid #000;
+    }
+    .transactions .tabs .ttab {
+      padding: 10px 0;
+      font-size: 12px;
+      font-weight: 700;
+      font-family: inherit;
+      color: #ccc;
+      background: none;
+      border: none;
+      cursor: pointer;
+      margin-right: 24px;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      position: relative;
+      transition: color 0.2s;
+    }
+    .transactions .tabs .ttab.active { color: #000; }
+    .transactions .tabs .ttab.active::after {
+      content: '';
+      position: absolute;
+      bottom: -2px;
+      left: 0;
+      width: 100%;
+      height: 2px;
+      background: #000;
+    }
+    .transactions table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    .transactions table th {
+      font-size: 10px;
+      font-weight: 700;
+      color: #bbb;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      text-align: left;
+      padding: 10px 0;
+      border-bottom: 2px solid #eee;
+    }
+    .transactions table td {
+      font-size: 13px;
+      color: #888;
+      padding: 12px 0;
+      border-bottom: 1px solid #f5f5f5;
+    }
+    .transactions table td:last-child { text-align: right; font-weight: 700; }
+    .transactions table td .credit { color: #000; }
+    .transactions table td .debit { color: #e65050; }
+    .transactions .empty {
+      font-size: 13px;
+      color: #ccc;
+      padding: 24px 0;
+      text-align: center;
+    }
+
+    @media (max-width: 768px) {
+      .header { padding: 4px 16px; }
+      .main { padding: 24px 12px 40px; }
+      .bal-card { padding: 24px; }
+      .bal-card .amt { font-size: 38px; }
+      .bal-card .row { gap: 24px; }
+      .quick-actions { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 480px) {
+      .header .left span { display: none; }
+      .transactions { padding: 18px; overflow-x: auto; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="header">
+  <div class="left">
+    <img src="logo.png" alt="Ad Meva">
+    <span>AD MEVA</span>
+  </div>
+  <div class="right">
+    <span class="user-name" id="userNameDisplay"></span>
+    <a href="dashboard.html" class="back-link">Dashboard</a>
+  </div>
+</div>
+
+<div class="main">
+  <div class="bal-card">
+    <div class="lbl">Available Balance</div>
+    <div class="amt">₹<span id="balanceDisplay">0</span><span>.00</span></div>
+    <div class="row">
+      <div>
+        <div class="val" id="totalDeposits">₹0</div>
+        <div class="lbl2">Total Deposits</div>
+      </div>
+      <div>
+        <div class="val" id="totalWithdrawals">₹0</div>
+        <div class="lbl2">Total Withdrawals</div>
+      </div>
+      <div>
+        <div class="val" id="pendingBalance">₹0</div>
+        <div class="lbl2">Pending</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="quick-actions">
+    <div class="qa" id="depositBtn">
+      <div class="icon"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div>
+      <div class="label">Add Funds</div>
+    </div>
+    <a href="withdrawal.html" class="qa" id="withdrawBtn">
+      <div class="icon"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 17 10 11 4 11"/><path d="M20 18v-2a4 4 0 0 0-4-4H8"/></svg></div>
+      <div class="label">Withdraw</div>
+    </a>
+    <div class="qa" id="transferBtn">
+      <div class="icon"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="17 1 21 5 17 9"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/><polyline points="7 23 3 19 7 15"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/></svg></div>
+      <div class="label">Transfer</div>
+    </div>
+  </div>
+
+  <div class="transactions">
+    <h3 style="font-size:18px;font-weight:800;color:#000;margin-bottom:16px;">Transaction History</h3>
+    <div class="tabs">
+      <button class="ttab active" data-tx="all">All</button>
+      <button class="ttab" data-tx="credit">Credits</button>
+      <button class="ttab" data-tx="debit">Debits</button>
+    </div>
+    <table>
+      <thead>
+        <tr><th>Date</th><th>Description</th><th>Amount</th></tr>
+      </thead>
+      <tbody id="txBody">
+        <tr><td colspan="3" class="empty">No transactions yet.</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<script>
+  const sessionEmail = localStorage.getItem('admeva_session');
+  if (!sessionEmail) { window.location.href = 'signup.html'; }
+
+  const data = localStorage.getItem('admeva_user_' + sessionEmail);
+  if (!data) { localStorage.removeItem('admeva_session'); window.location.href = 'signup.html'; }
+
+  const user = JSON.parse(data);
+  document.getElementById('userNameDisplay').textContent = user.name;
+  document.getElementById('balanceDisplay').textContent = user.balance || 0;
+
+  const txns = user.transactions || [];
+  let totals = { deposits: 0, withdrawals: 0, pending: 0 };
+  txns.forEach(t => {
+    if (t.type === 'deposit' || t.type === 'credit' || t.type === 'earning') totals.deposits += t.amount;
+    else if (t.type === 'withdrawal' || t.type === 'debit') totals.withdrawals += t.amount;
+    if (t.status === 'pending') totals.pending += t.amount;
+  });
+  document.getElementById('totalDeposits').textContent = '₹' + totals.deposits;
+  document.getElementById('totalWithdrawals').textContent = '₹' + totals.withdrawals;
+  document.getElementById('pendingBalance').textContent = '₹' + totals.pending;
+
+  function renderTxns(filter) {
+    const tbody = document.getElementById('txBody');
+    let filtered = txns;
+    if (filter === 'credit') filtered = txns.filter(t => t.amount > 0);
+    else if (filter === 'debit') filtered = txns.filter(t => t.amount < 0);
+
+    if (filtered.length === 0) {
+      tbody.innerHTML = '<tr><td colspan="3" class="empty">No transactions found.</td></tr>';
+      return;
+    }
+    tbody.innerHTML = filtered.slice().reverse().map(t => {
+      const isCredit = t.amount > 0;
+      const cls = isCredit ? 'credit' : 'debit';
+      const sign = isCredit ? '+' : '';
+      const date = t.date ? new Date(t.date).toLocaleDateString('en-IN', { day: 'numeric', month: 'short' }) : '—';
+      return '<tr><td>' + date + '</td><td>' + t.desc + '</td><td class="' + cls + '">' + sign + '₹' + t.amount + '</td></tr>';
+    }).join('');
+  }
+
+  document.querySelectorAll('.ttab').forEach(tab => {
+    tab.addEventListener('click', () => {
+      document.querySelectorAll('.ttab').forEach(t => t.classList.remove('active'));
+      tab.classList.add('active');
+      renderTxns(tab.dataset.tx);
+    });
+  });
+  renderTxns('all');
+
+  document.getElementById('depositBtn').addEventListener('click', () => {
+    const amt = prompt('Enter amount to add (₹):', '100');
+    if (!amt || isNaN(amt) || +amt <= 0) return;
+    const val = Math.round(+amt);
+    if (!user.transactions) user.transactions = [];
+    user.transactions.push({ amount: val, desc: 'Funds added via deposit', type: 'deposit', date: new Date().toISOString(), status: 'completed' });
+    user.balance = (user.balance || 0) + val;
+    localStorage.setItem('admeva_user_' + sessionEmail, JSON.stringify(user));
+    location.reload();
+  });
+
+  // withdrawBtn now links directly to withdrawal.html
+
+  document.getElementById('transferBtn').addEventListener('click', () => {
+    alert('Transfer feature coming soon.');
+  });
+</script>
+</body>
+</html>
