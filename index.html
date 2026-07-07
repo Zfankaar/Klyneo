@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ad Meva – Earn with Every Ad</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    *{margin:0;padding:0;box-sizing:border-box}
+    body {
+      font-family: 'Inter', sans-serif;
+      background: #fffde7;
+      min-height: 100vh;
+    }
+    .header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 4px 40px;
+      border-bottom: 2px solid #000;
+      background: #fff;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    .header .logo-wrap {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .header .logo-wrap img {
+      height: 90px;
+      width: auto;
+      object-fit: contain;
+    }
+    .header .logo-wrap span {
+      font-size: 20px;
+      font-weight: 900;
+      color: #000;
+      letter-spacing: -0.5px;
+    }
+    .header nav {
+      display: flex;
+      align-items: center;
+      gap: 28px;
+    }
+    .header nav a {
+      font-size: 13px;
+      font-weight: 600;
+      color: #888;
+      text-decoration: none;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      transition: color 0.2s;
+    }
+    .header nav a:hover { color: #000; }
+    .header .btn-outline {
+      padding: 10px 24px;
+      border: 2px solid #000;
+      background: transparent;
+      font-size: 12px;
+      font-weight: 700;
+      font-family: inherit;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      cursor: pointer;
+      color: #000;
+      text-decoration: none;
+      transition: all 0.3s;
+    }
+    .header .btn-outline:hover {
+      background: #000;
+      color: #fff;
+    }
+    .hero {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 60px 40px 80px;
+      max-width: 1200px;
+      margin: 0 auto;
+      gap: 60px;
+    }
+    .hero .left {
+      flex: 1;
+    }
+    .hero .left .tag {
+      display: inline-block;
+      padding: 6px 14px;
+      background: #ffd600;
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 20px;
+      border: 2px solid #000;
+    }
+    .hero .left h1 {
+      font-size: 58px;
+      font-weight: 900;
+      color: #000;
+      line-height: 1.05;
+      letter-spacing: -2px;
+    }
+    .hero .left h1 span {
+      background: #ffd600;
+      padding: 0 4px;
+    }
+    .hero .left p {
+      font-size: 18px;
+      color: #888;
+      margin-top: 16px;
+      line-height: 1.5;
+      max-width: 480px;
+    }
+    .hero .left .cta-row {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-top: 32px;
+    }
+    .hero .left .btn-primary {
+      padding: 16px 40px;
+      background: #000;
+      border: none;
+      font-size: 13px;
+      font-weight: 800;
+      font-family: inherit;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      cursor: pointer;
+      color: #fff;
+      text-decoration: none;
+      transition: all 0.3s;
+    }
+    .hero .left .btn-primary:hover {
+      background: #ffd600;
+      color: #000;
+      box-shadow: 8px 8px 0 rgba(0,0,0,0.1);
+    }
+    .hero .left .btn-ghost {
+      font-size: 13px;
+      font-weight: 600;
+      color: #888;
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .hero .left .btn-ghost:hover { color: #000; }
+    .hero .right {
+      flex: 1;
+      display: flex;
+      justify-content: center;
+    }
+    .hero .right .card-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+    .hero .right .card-grid .card {
+      background: #fff;
+      border: 3px solid #000;
+      padding: 24px;
+      text-align: center;
+      box-shadow: 8px 8px 0 #000;
+    }
+    .hero .right .card-grid .card .num {
+      font-size: 36px;
+      font-weight: 900;
+      color: #000;
+    }
+    .hero .right .card-grid .card .lbl {
+      font-size: 12px;
+      color: #888;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-top: 4px;
+    }
+    .hero .right .card-grid .card.highlight {
+      background: #ffd600;
+    }
+    .features {
+      padding: 60px 40px 80px;
+      background: #fff;
+      border-top: 3px solid #000;
+      border-bottom: 3px solid #000;
+    }
+    .features .inner {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    .features h2 {
+      font-size: 36px;
+      font-weight: 900;
+      color: #000;
+      letter-spacing: -1px;
+      margin-bottom: 40px;
+    }
+    .features .grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+    }
+    .features .grid .item {
+      padding: 32px;
+      border: 2px solid #000;
+      background: #fffde7;
+      box-shadow: 6px 6px 0 #000;
+    }
+    .features .grid .item .icon {
+      font-size: 28px;
+      margin-bottom: 12px;
+    }
+    .features .grid .item h3 {
+      font-size: 18px;
+      font-weight: 800;
+      color: #000;
+    }
+    .features .grid .item p {
+      font-size: 14px;
+      color: #888;
+      margin-top: 8px;
+      line-height: 1.5;
+    }
+    .cta-section {
+      padding: 60px 40px;
+      text-align: center;
+      background: #ffd600;
+      border-bottom: 3px solid #000;
+    }
+    .cta-section h2 {
+      font-size: 40px;
+      font-weight: 900;
+      color: #000;
+      letter-spacing: -1px;
+    }
+    .cta-section p {
+      font-size: 16px;
+      color: rgba(0,0,0,0.5);
+      margin-top: 10px;
+    }
+    .cta-section .btn-primary {
+      display: inline-block;
+      margin-top: 28px;
+      padding: 16px 48px;
+      background: #000;
+      border: none;
+      font-size: 13px;
+      font-weight: 800;
+      font-family: inherit;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      cursor: pointer;
+      color: #fff;
+      text-decoration: none;
+      transition: all 0.3s;
+    }
+    .cta-section .btn-primary:hover {
+      background: #fff;
+      color: #000;
+      box-shadow: 8px 8px 0 #000;
+    }
+    .footer {
+      padding: 24px 40px;
+      text-align: center;
+      background: #fff;
+    }
+    .footer p {
+      font-size: 12px;
+      color: #ccc;
+      font-weight: 500;
+    }
+    @media (max-width: 900px) {
+      .hero { flex-direction: column; padding: 40px 24px 60px; gap: 40px; }
+      .hero .left h1 { font-size: 42px; }
+      .features .grid { grid-template-columns: 1fr 1fr; }
+    }
+    @media (max-width: 620px) {
+      .header { padding: 12px 16px; }
+      .header .logo-wrap span { display: none; }
+      .header nav a { display: none; }
+      .hero .left h1 { font-size: 32px; }
+      .hero .right .card-grid { grid-template-columns: 1fr; }
+      .features .grid { grid-template-columns: 1fr; }
+      .features { padding: 40px 16px 60px; }
+      .cta-section { padding: 40px 16px; }
+      .cta-section h2 { font-size: 28px; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="header">
+  <div class="logo-wrap">
+    <img src="logo.png" alt="Ad Meva">
+    <span>AD MEVA</span>
+  </div>
+  <nav>
+    <a href="#">Home</a>
+    <a href="#">Features</a>
+    <a href="#">About</a>
+    <a href="signup.html" class="btn-outline">Get Started</a>
+  </nav>
+</div>
+
+<section class="hero">
+  <div class="left">
+    <div class="tag">BRAND NEW PLATFORM</div>
+    <h1>Watch ads.<br><span>Get paid.</span> Simple.</h1>
+    <p>Earn real money by watching short ads. Instant withdrawals, zero investment, 100% legit.</p>
+    <div class="cta-row">
+      <a href="signup.html" class="btn-primary">Start Earning →</a>
+      <a href="#" class="btn-ghost">Learn More</a>
+    </div>
+  </div>
+  <div class="right">
+    <div class="card-grid">
+      <div class="card highlight">
+        <div class="num">Brand</div>
+        <div class="lbl">New Platform</div>
+      </div>
+      <div class="card">
+        <div class="num">100%</div>
+        <div class="lbl">Free to Join</div>
+      </div>
+      <div class="card">
+        <div class="num">Live</div>
+        <div class="lbl">Now in Beta</div>
+      </div>
+      <div class="card highlight">
+        <div class="num">₹0</div>
+        <div class="lbl">Investment Needed</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="features">
+  <div class="inner">
+    <h2>Why Ad Meva?</h2>
+    <div class="grid">
+      <div class="item">
+        <div class="icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg></div>
+        <h3>Instant Withdrawals</h3>
+        <p>Get your earnings instantly. No waiting, no hidden charges.</p>
+      </div>
+      <div class="item">
+        <div class="icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M9 12l2 2 4-4"/></svg></div>
+        <h3>100% Secure</h3>
+        <p>Your data and payments are protected with bank-grade security.</p>
+      </div>
+      <div class="item">
+        <div class="icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg></div>
+        <h3>Easy to Start</h3>
+        <p>No skills needed. Just sign up, watch ads, and start earning.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="cta-section">
+  <h2>Ready to earn?</h2>
+  <p>Join early and be part of something new.</p>
+  <a href="signup.html" class="btn-primary">Create Free Account →</a>
+</section>
+
+<div class="footer">
+  <p>&copy; 2026 Ad Meva. All rights reserved.</p>
+</div>
+
+</body>
+</html>

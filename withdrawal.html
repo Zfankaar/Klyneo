@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Withdrawal – Ad Meva</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    *{margin:0;padding:0;box-sizing:border-box}
+    body {
+      font-family: 'Inter', sans-serif;
+      background: #fffde7;
+      min-height: 100vh;
+    }
+    .header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 4px 40px;
+      border-bottom: 2px solid #000;
+      background: #fff;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    .header .left {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .header .left img {
+      height: 50px;
+      width: auto;
+      object-fit: contain;
+    }
+    .header .left span {
+      font-size: 18px;
+      font-weight: 900;
+      color: #000;
+      letter-spacing: -0.5px;
+    }
+    .header .right {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+    .header .right .user-name {
+      font-size: 13px;
+      font-weight: 700;
+      color: #000;
+    }
+    .header .right .back-link {
+      padding: 6px 16px;
+      border: 2px solid #000;
+      background: transparent;
+      font-size: 11px;
+      font-weight: 700;
+      font-family: inherit;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      cursor: pointer;
+      color: #000;
+      text-decoration: none;
+      transition: all 0.3s;
+    }
+    .header .right .back-link:hover {
+      background: #000;
+      color: #fff;
+    }
+
+    .main {
+      max-width: 700px;
+      margin: 0 auto;
+      padding: 40px 24px 60px;
+    }
+
+    .bal-card {
+      background: #ffd600;
+      border: 3px solid #000;
+      padding: 24px 28px;
+      box-shadow: 10px 10px 0 #000;
+      margin-bottom: 24px;
+    }
+    .bal-card .top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .bal-card .lbl {
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1.2px;
+      color: rgba(0,0,0,0.4);
+    }
+    .bal-card .amt {
+      font-size: 32px;
+      font-weight: 900;
+      color: #000;
+      letter-spacing: -1.5px;
+    }
+    .bal-card .note {
+      font-size: 11px;
+      color: rgba(0,0,0,0.3);
+      font-weight: 500;
+      margin-top: 4px;
+    }
+
+    .info-strip {
+      background: #fff;
+      border: 3px solid #000;
+      padding: 16px 24px;
+      box-shadow: 8px 8px 0 #000;
+      margin-bottom: 24px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .info-strip svg { flex-shrink: 0; }
+    .info-strip p {
+      font-size: 12px;
+      color: #555;
+      line-height: 1.5;
+    }
+    .info-strip p strong { color: #000; }
+
+    .form-box {
+      background: #fff;
+      border: 3px solid #000;
+      box-shadow: 10px 10px 0 #000;
+      padding: 28px 32px;
+      margin-bottom: 28px;
+    }
+    .form-box .title {
+      font-size: 16px;
+      font-weight: 800;
+      color: #000;
+      margin-bottom: 20px;
+    }
+
+    .input-group { margin-bottom: 16px }
+    .input-group label {
+      display: block;
+      font-size: 10px;
+      font-weight: 700;
+      color: #999;
+      margin-bottom: 6px;
+      text-transform: uppercase;
+      letter-spacing: 1.2px;
+    }
+    .input-group input, .input-group select {
+      width: 100%;
+      padding: 12px 14px;
+      background: #fafafa;
+      border: 2px solid #eee;
+      border-radius: 0;
+      color: #333;
+      font-size: 14px;
+      font-family: inherit;
+      outline: none;
+      transition: all 0.25s;
+    }
+    .input-group input:focus, .input-group select:focus {
+      border-color: #000;
+      background: #fff;
+    }
+    .input-group .hint {
+      font-size: 10px;
+      color: #ccc;
+      margin-top: 4px;
+      font-weight: 500;
+    }
+    .input-group .bal-hint {
+      font-size: 11px;
+      color: #000;
+      font-weight: 700;
+      margin-top: 4px;
+    }
+
+    .preview {
+      background: #fafafa;
+      border: 2px solid #eee;
+      padding: 14px 16px;
+      margin: 16px 0;
+    }
+    .preview .row {
+      display: flex;
+      justify-content: space-between;
+      font-size: 13px;
+      padding: 6px 0;
+    }
+    .preview .row .l { color: #bbb; }
+    .preview .row .r { color: #000; font-weight: 700; }
+    .preview .row.total {
+      border-top: 2px solid #000;
+      margin-top: 4px;
+      padding-top: 10px;
+    }
+    .preview .row.total .r {
+      font-size: 18px;
+      color: #000;
+    }
+
+    .btn {
+      width: 100%;
+      padding: 16px;
+      border: none;
+      border-radius: 0;
+      font-size: 13px;
+      font-weight: 800;
+      font-family: inherit;
+      cursor: pointer;
+      background: #000;
+      color: #fff;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      transition: all 0.3s;
+    }
+    .btn:hover {
+      background: #ffd600;
+      color: #000;
+      box-shadow: 8px 8px 0 rgba(0,0,0,0.1);
+    }
+    .btn:disabled {
+      opacity: 0.3;
+      cursor: not-allowed;
+    }
+    .btn:disabled:hover {
+      background: #000;
+      color: #fff;
+      box-shadow: none;
+    }
+
+    .history {
+      background: #fff;
+      border: 3px solid #000;
+      box-shadow: 8px 8px 0 #000;
+      padding: 20px 24px;
+    }
+    .history .hdr {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 14px;
+    }
+    .history .hdr h3 {
+      font-size: 15px;
+      font-weight: 800;
+      color: #000;
+    }
+    .history .hdr .cnt {
+      font-size: 11px;
+      font-weight: 700;
+      color: #bbb;
+    }
+    .history table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    .history table th {
+      font-size: 9px;
+      font-weight: 700;
+      color: #bbb;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      text-align: left;
+      padding: 8px 0;
+      border-bottom: 2px solid #eee;
+    }
+    .history table td {
+      font-size: 12px;
+      color: #888;
+      padding: 10px 0;
+      border-bottom: 1px solid #f5f5f5;
+    }
+    .history table td:last-child { text-align: right; }
+    .history .badge {
+      display: inline-block;
+      padding: 2px 10px;
+      font-size: 9px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .history .badge.pending { background: #ffd600; color: #000; }
+    .history .badge.completed { background: #000; color: #fff; }
+    .history .badge.rejected { background: #eee; color: #bbb; }
+    .history .empty {
+      font-size: 12px;
+      color: #ccc;
+      padding: 20px 0;
+      text-align: center;
+    }
+
+    @media (max-width: 620px) {
+      .header { padding: 4px 16px; }
+      .header .left span { display: none; }
+      .main { padding: 24px 12px 40px; }
+      .form-box { padding: 18px; }
+      .history { padding: 14px; overflow-x: auto; }
+      .info-strip { flex-direction: column; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="header">
+  <div class="left">
+    <img src="logo.png" alt="Ad Meva">
+    <span>AD MEVA</span>
+  </div>
+  <div class="right">
+    <span class="user-name" id="userNameDisplay"></span>
+    <a href="dashboard.html" class="back-link">Dashboard</a>
+  </div>
+</div>
+
+<div class="main">
+
+  <div class="bal-card">
+    <div class="top">
+      <div>
+        <div class="lbl">Available Balance</div>
+        <div class="amt">₹<span id="balanceDisplay">0</span></div>
+      </div>
+      <div style="text-align:right;">
+        <div class="lbl">Min. Payout</div>
+        <div class="amt" style="font-size:22px;">₹50</div>
+      </div>
+    </div>
+    <div class="note">Complete tasks to earn & withdraw your balance easily</div>
+  </div>
+
+  <div class="info-strip">
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+    <p>Withdrawals are processed within <strong>24 hours</strong>. Make sure your account details are correct before submitting.</p>
+  </div>
+
+  <div class="form-box">
+    <div class="title">Withdraw Your Earnings</div>
+
+    <div class="input-group">
+      <label for="withdrawAmount">Amount (₹)</label>
+      <input type="number" id="withdrawAmount" placeholder="e.g. 100" min="50" step="1">
+      <div class="bal-hint">Available: ₹<span id="balHint">0</span> &bull; Min ₹50</div>
+    </div>
+
+    <div class="input-group">
+      <label for="withdrawMethod">Choose Method</label>
+      <select id="withdrawMethod">
+        <option value="easypaisa">EasyPaisa</option>
+        <option value="jazzcash">JazzCash</option>
+      </select>
+    </div>
+
+    <div class="input-group">
+      <label for="withdrawName" id="nameLabel">Account Name</label>
+      <input type="text" id="withdrawName" placeholder="e.g. Muhammad Ali">
+      <div class="hint">Enter the full name on your account</div>
+    </div>
+
+    <div class="input-group">
+      <label for="withdrawAccount" id="accountLabel">Account Number</label>
+      <input type="text" id="withdrawAccount" placeholder="e.g. 03123456789">
+      <div class="hint">Enter your mobile number linked to this service</div>
+    </div>
+
+    <div class="preview">
+      <div class="row"><span class="l">Amount</span><span class="r" id="previewAmount">₹0</span></div>
+      <div class="row"><span class="l">Fee</span><span class="r">₹0</span></div>
+      <div class="row total"><span class="l">You Receive</span><span class="r" id="previewNet">₹0</span></div>
+    </div>
+
+    <button class="btn" id="submitWithdraw">Submit Request</button>
+    <p id="withdrawError" style="color:#e65050;font-size:11px;font-weight:600;margin-top:8px;display:none;"></p>
+  </div>
+
+  <div class="history">
+    <div class="hdr">
+      <h3>Withdrawal History</h3>
+      <span class="cnt" id="historyCount">0 requests</span>
+    </div>
+    <table>
+      <thead>
+        <tr><th>Date</th><th>Method</th><th>Amount</th><th>Status</th></tr>
+      </thead>
+      <tbody id="historyBody">
+        <tr><td colspan="4" class="empty">No withdrawal requests yet. Submit your first withdrawal above!</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<script>
+  const sessionEmail = localStorage.getItem('admeva_session');
+  if (!sessionEmail) { window.location.href = 'signup.html'; }
+
+  const data = localStorage.getItem('admeva_user_' + sessionEmail);
+  if (!data) { localStorage.removeItem('admeva_session'); window.location.href = 'signup.html'; }
+
+  const user = JSON.parse(data);
+  const bal = user.balance || 0;
+  document.getElementById('userNameDisplay').textContent = user.name;
+  document.getElementById('balanceDisplay').textContent = bal;
+  document.getElementById('balHint').textContent = bal;
+
+  const methodLabels = {
+    easypaisa: ['Account Name','Full name on EasyPaisa','EasyPaisa Number','03xxxxxxxxx'],
+    jazzcash: ['Account Name','Full name on JazzCash','JazzCash Number','03xxxxxxxxx']
+  };
+
+  document.getElementById('withdrawMethod').addEventListener('change', function() {
+    const m = methodLabels[this.value] || ['Account Name','Enter name','Account Number','Enter number'];
+    document.getElementById('nameLabel').textContent = m[0];
+    document.getElementById('withdrawName').placeholder = m[1];
+    document.getElementById('accountLabel').textContent = m[2];
+    document.getElementById('withdrawAccount').placeholder = m[3];
+  });
+
+  document.getElementById('withdrawAmount').addEventListener('input', function() {
+    const val = parseInt(this.value) || 0;
+    document.getElementById('previewAmount').textContent = '₹' + val;
+    document.getElementById('previewNet').textContent = '₹' + val;
+  });
+
+  function showErr(msg) {
+    const el = document.getElementById('withdrawError');
+    el.textContent = msg;
+    el.style.display = msg ? 'block' : 'none';
+  }
+
+  document.getElementById('submitWithdraw').addEventListener('click', function() {
+    showErr('');
+    const balance = user.balance || 0;
+    const amount = parseInt(document.getElementById('withdrawAmount').value);
+    const method = document.getElementById('withdrawMethod').value;
+    const name = document.getElementById('withdrawName').value.trim();
+    const account = document.getElementById('withdrawAccount').value.trim();
+
+    if (!amount || amount < 50) { showErr('Minimum withdrawal is ₹50.'); return; }
+    if (amount > balance) { showErr('Insufficient balance. You have ₹' + balance); return; }
+    if (!name) { showErr('Please enter your account name.'); return; }
+    if (!account) { showErr('Please enter your account number.'); return; }
+
+    if (!user.transactions) user.transactions = [];
+    if (!user.withdrawals) user.withdrawals = [];
+
+    user.transactions.push({ amount: -amount, desc: 'Withdrawal via ' + method.toUpperCase(), type: 'withdrawal', date: new Date().toISOString(), status: 'pending' });
+    user.withdrawals.push({ amount: amount, method: method, name: name, account: account, date: new Date().toISOString(), status: 'pending' });
+    user.balance = balance - amount;
+    localStorage.setItem('admeva_user_' + sessionEmail, JSON.stringify(user));
+
+    alert('Withdrawal request submitted!\nAmount: ₹' + amount + '\nMethod: ' + method.toUpperCase() + '\nName: ' + name + '\nAccount: ' + account);
+    location.reload();
+  });
+
+  const withdrawals = user.withdrawals || [];
+  document.getElementById('historyCount').textContent = withdrawals.length + ' request' + (withdrawals.length !== 1 ? 's' : '');
+  const tbody = document.getElementById('historyBody');
+  if (withdrawals.length === 0) {
+    tbody.innerHTML = '<tr><td colspan="4" class="empty">No withdrawal requests yet. Submit your first withdrawal above!</td></tr>';
+  } else {
+    tbody.innerHTML = withdrawals.slice().reverse().map(w => {
+      const date = w.date ? new Date(w.date).toLocaleDateString('en-IN', { day: 'numeric', month: 'short' }) : '—';
+      const statusClass = w.status === 'completed' ? 'completed' : w.status === 'rejected' ? 'rejected' : 'pending';
+      const methodName = { easypaisa:'EasyPaisa', jazzcash:'JazzCash' }[w.method] || w.method.toUpperCase();
+      return '<tr><td>' + date + '</td><td>' + methodName + '</td><td>₹' + w.amount + '</td><td><span class="badge ' + statusClass + '">' + w.status + '</span></td></tr>';
+    }).join('');
+  }
+</script>
+</body>
+</html>

@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Wallet – Ad Meva</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    *{margin:0;padding:0;box-sizing:border-box}
+    body {
+      font-family: 'Inter', sans-serif;
+      background: #fffde7;
+      min-height: 100vh;
+    }
+    .header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 4px 40px;
+      border-bottom: 2px solid #000;
+      background: #fff;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    .header .left {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .header .left img {
+      height: 50px;
+      width: auto;
+      object-fit: contain;
+    }
+    .header .left span {
+      font-size: 18px;
+      font-weight: 900;
+      color: #000;
+      letter-spacing: -0.5px;
+    }
+    .header .right {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+    .header .right .user-name {
+      font-size: 13px;
+      font-weight: 700;
+      color: #000;
+    }
+    .header .right .back-link {
+      padding: 6px 16px;
+      border: 2px solid #000;
+      background: transparent;
+      font-size: 11px;
+      font-weight: 700;
+      font-family: inherit;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      cursor: pointer;
+      color: #000;
+      text-decoration: none;
+      transition: all 0.3s;
+    }
+    .header .right .back-link:hover {
+      background: #000;
+      color: #fff;
+    }
+
+    .main {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 40px 24px 60px;
+    }
+
+    .bal-card {
+      background: #ffd600;
+      border: 3px solid #000;
+      padding: 32px 36px;
+      box-shadow: 12px 12px 0 #000;
+      margin-bottom: 32px;
+    }
+    .bal-card .lbl {
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      color: rgba(0,0,0,0.4);
+    }
+    .bal-card .amt {
+      font-size: 52px;
+      font-weight: 900;
+      color: #000;
+      letter-spacing: -2px;
+      margin-top: 4px;
+    }
+    .bal-card .amt span {
+      font-size: 20px;
+      font-weight: 700;
+      color: rgba(0,0,0,0.3);
+      margin-left: 4px;
+    }
+    .bal-card .row {
+      display: flex;
+      gap: 40px;
+      margin-top: 16px;
+    }
+    .bal-card .row div .val {
+      font-size: 18px;
+      font-weight: 800;
+      color: #000;
+    }
+    .bal-card .row div .lbl2 {
+      font-size: 11px;
+      font-weight: 600;
+      color: rgba(0,0,0,0.3);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .info-box {
+      background: #fff;
+      border: 3px solid #000;
+      padding: 20px 28px;
+      box-shadow: 8px 8px 0 #000;
+      margin-bottom: 28px;
+    }
+    .info-box .title {
+      font-size: 15px;
+      font-weight: 800;
+      color: #000;
+      margin-bottom: 12px;
+    }
+    .info-box p {
+      font-size: 13px;
+      color: #555;
+      line-height: 1.6;
+    }
+    .info-box .methods {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 10px;
+    }
+    .info-box .methods span {
+      display: inline-block;
+      padding: 4px 14px;
+      border: 2px solid #000;
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      background: #fffde7;
+      color: #000;
+    }
+
+    .section-title {
+      font-size: 20px;
+      font-weight: 800;
+      color: #000;
+      margin-bottom: 20px;
+    }
+
+    .quick-actions {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 16px;
+      max-width: 380px;
+      margin: 0 auto 32px;
+    }
+    .quick-actions .qa {
+      background: #fff;
+      border: 3px solid #000;
+      padding: 28px;
+      text-align: center;
+      box-shadow: 6px 6px 0 #000;
+      text-decoration: none;
+      cursor: pointer;
+      transition: all 0.25s;
+    }
+    .quick-actions .qa:hover {
+      transform: translate(-3px, -3px);
+      box-shadow: 10px 10px 0 #000;
+      background: #ffd600;
+    }
+    .quick-actions .qa .icon {
+      margin-bottom: 8px;
+    }
+    .quick-actions .qa .label {
+      font-size: 15px;
+      font-weight: 900;
+      color: #000;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .quick-actions .qa .sub {
+      font-size: 11px;
+      color: #bbb;
+      margin-top: 4px;
+      font-weight: 500;
+    }
+
+    .transactions {
+      background: #fff;
+      border: 3px solid #000;
+      box-shadow: 8px 8px 0 #000;
+      padding: 28px 32px;
+    }
+    .transactions .tabs {
+      display: flex;
+      gap: 0;
+      margin-bottom: 20px;
+      border-bottom: 2px solid #000;
+    }
+    .transactions .tabs .ttab {
+      padding: 10px 0;
+      font-size: 12px;
+      font-weight: 700;
+      font-family: inherit;
+      color: #ccc;
+      background: none;
+      border: none;
+      cursor: pointer;
+      margin-right: 24px;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      position: relative;
+      transition: color 0.2s;
+    }
+    .transactions .tabs .ttab.active { color: #000; }
+    .transactions .tabs .ttab.active::after {
+      content: '';
+      position: absolute;
+      bottom: -2px;
+      left: 0;
+      width: 100%;
+      height: 2px;
+      background: #000;
+    }
+    .transactions table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    .transactions table th {
+      font-size: 10px;
+      font-weight: 700;
+      color: #bbb;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      text-align: left;
+      padding: 10px 0;
+      border-bottom: 2px solid #eee;
+    }
+    .transactions table td {
+      font-size: 13px;
+      color: #888;
+      padding: 12px 0;
+      border-bottom: 1px solid #f5f5f5;
+    }
+    .transactions table td:last-child { text-align: right; font-weight: 700; }
+    .transactions table td .credit { color: #000; }
+    .transactions table td .debit { color: #e65050; }
+    .transactions .empty {
+      font-size: 13px;
+      color: #ccc;
+      padding: 24px 0;
+      text-align: center;
+    }
+
+    @media (max-width: 768px) {
+      .header { padding: 4px 16px; }
+      .main { padding: 24px 12px 40px; }
+      .bal-card { padding: 24px; }
+      .bal-card .amt { font-size: 38px; }
+      .bal-card .row { gap: 24px; }
+      .quick-actions { grid-template-columns: 1fr; }
+      .info-box { padding: 16px 20px; }
+    }
+    @media (max-width: 480px) {
+      .header .left span { display: none; }
+      .transactions { padding: 18px; overflow-x: auto; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="header">
+  <div class="left">
+    <img src="logo.png" alt="Ad Meva">
+    <span>AD MEVA</span>
+  </div>
+  <div class="right">
+    <span class="user-name" id="userNameDisplay"></span>
+    <a href="dashboard.html" class="back-link">Dashboard</a>
+  </div>
+</div>
+
+<div class="main">
+
+  <div class="bal-card">
+    <div class="lbl">Available Balance</div>
+    <div class="amt">₹<span id="balanceDisplay">0</span><span>.00</span></div>
+    <div style="font-size:12px;color:rgba(0,0,0,0.3);font-weight:500;margin-top:2px;">Earn by completing tasks & withdraw anytime</div>
+    <div class="row">
+      <div>
+        <div class="val" id="totalEarnings">₹0</div>
+        <div class="lbl2">Total Earnings</div>
+      </div>
+      <div>
+        <div class="val" id="totalWithdrawals">₹0</div>
+        <div class="lbl2">Total Withdrawals</div>
+      </div>
+      <div>
+        <div class="val" id="pendingBalance">₹0</div>
+        <div class="lbl2">Pending</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="info-box">
+    <div class="title">How to Withdraw?</div>
+    <p>Go to the withdrawal page, enter the amount (min ₹50), choose your method, fill in your details, and submit. Your request will be processed within 24 hours.</p>
+    <div class="methods">
+      <span>EasyPaisa</span>
+      <span>JazzCash</span>
+    </div>
+  </div>
+
+  <div class="quick-actions">
+    <a href="withdrawal.html" class="qa" id="withdrawBtn">
+      <div class="icon"><svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v12M9 11l3 3 3-3"/><path d="M4 17v3a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-3"/></svg></div>
+      <div class="label">Withdraw Now</div>
+      <div class="sub">EasyPaisa &bull; JazzCash &bull; Min ₹50</div>
+    </a>
+  </div>
+
+  <div class="transactions">
+    <h3 style="font-size:18px;font-weight:800;color:#000;margin-bottom:16px;">Transaction History</h3>
+    <div class="tabs">
+      <button class="ttab active" data-tx="all">All</button>
+      <button class="ttab" data-tx="credit">Credits</button>
+      <button class="ttab" data-tx="debit">Debits</button>
+    </div>
+    <table>
+      <thead>
+        <tr><th>Date</th><th>Description</th><th>Amount</th></tr>
+      </thead>
+      <tbody id="txBody">
+        <tr><td colspan="3" class="empty">No transactions yet. Start earning from the tasks page!</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<script>
+  const sessionEmail = localStorage.getItem('admeva_session');
+  if (!sessionEmail) { window.location.href = 'signup.html'; }
+
+  const data = localStorage.getItem('admeva_user_' + sessionEmail);
+  if (!data) { localStorage.removeItem('admeva_session'); window.location.href = 'signup.html'; }
+
+  const user = JSON.parse(data);
+  document.getElementById('userNameDisplay').textContent = user.name;
+  document.getElementById('balanceDisplay').textContent = user.balance || 0;
+
+  const txns = user.transactions || [];
+  let totals = { deposits: 0, withdrawals: 0, pending: 0 };
+  txns.forEach(t => {
+    if (t.type === 'deposit' || t.type === 'credit' || t.type === 'earning') totals.deposits += t.amount;
+    else if (t.type === 'withdrawal' || t.type === 'debit') totals.withdrawals += t.amount;
+    if (t.status === 'pending') totals.pending += t.amount;
+  });
+  document.getElementById('totalEarnings').textContent = '₹' + totals.deposits;
+  document.getElementById('totalWithdrawals').textContent = '₹' + totals.withdrawals;
+  document.getElementById('pendingBalance').textContent = '₹' + totals.pending;
+
+  function renderTxns(filter) {
+    const tbody = document.getElementById('txBody');
+    let filtered = txns;
+    if (filter === 'credit') filtered = txns.filter(t => t.amount > 0);
+    else if (filter === 'debit') filtered = txns.filter(t => t.amount < 0);
+
+    if (filtered.length === 0) {
+      tbody.innerHTML = '<tr><td colspan="3" class="empty">No transactions found.</td></tr>';
+      return;
+    }
+    tbody.innerHTML = filtered.slice().reverse().map(t => {
+      const isCredit = t.amount > 0;
+      const cls = isCredit ? 'credit' : 'debit';
+      const sign = isCredit ? '+' : '';
+      const date = t.date ? new Date(t.date).toLocaleDateString('en-IN', { day: 'numeric', month: 'short' }) : '—';
+      return '<tr><td>' + date + '</td><td>' + t.desc + '</td><td class="' + cls + '">' + sign + '₹' + t.amount + '</td></tr>';
+    }).join('');
+  }
+
+  document.querySelectorAll('.ttab').forEach(tab => {
+    tab.addEventListener('click', () => {
+      document.querySelectorAll('.ttab').forEach(t => t.classList.remove('active'));
+      tab.classList.add('active');
+      renderTxns(tab.dataset.tx);
+    });
+  });
+  renderTxns('all');
+
+  // withdrawBtn now links directly to withdrawal.html
+</script>
+</body>
+</html>

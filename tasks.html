@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tasks – Ad Meva</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    *{margin:0;padding:0;box-sizing:border-box}
+    body {font-family:'Inter',sans-serif;background:#fffde7;min-height:100vh}
+    .header{display:flex;align-items:center;justify-content:space-between;padding:4px 40px;border-bottom:2px solid #000;background:#fff;position:sticky;top:0;z-index:100}
+    .header .left{display:flex;align-items:center;gap:12px}
+    .header .left img{height:50px;width:auto;object-fit:contain}
+    .header .left span{font-size:18px;font-weight:900;color:#000;letter-spacing:-0.5px}
+    .header .right{display:flex;align-items:center;gap:16px}
+    .header .right .user-name{font-size:13px;font-weight:700;color:#000}
+    .header .right .back-link{padding:6px 16px;border:2px solid #000;background:transparent;font-size:11px;font-weight:700;font-family:inherit;text-transform:uppercase;letter-spacing:1px;cursor:pointer;color:#000;text-decoration:none;transition:all .3s}
+    .header .right .back-link:hover{background:#000;color:#fff}
+    .main{max-width:800px;margin:0 auto;padding:32px 20px 60px}
+    .top{display:flex;align-items:center;justify-content:space-between;margin-bottom:24px}
+    .top h1{font-size:26px;font-weight:900;color:#000}
+    .top .earn{font-size:13px;font-weight:700;color:#bbb}
+    .top .earn span{color:#000;font-size:18px}
+
+    .cat-row{display:flex;gap:10px;margin-bottom:24px;overflow-x:auto}
+    .cat-btn{padding:10px 28px;border:2px solid #000;background:#fff;font-size:12px;font-weight:800;font-family:inherit;cursor:pointer;text-transform:uppercase;letter-spacing:1px;transition:all .2s;white-space:nowrap}
+    .cat-btn.active{background:#ffd600;color:#000}
+    .cat-btn:hover{background:#ffd600}
+    .cat-btn .cnt{font-size:10px;color:#bbb;margin-left:6px}
+    .cat-btn.active .cnt{color:rgba(0,0,0,0.4)}
+
+    .task{display:flex;align-items:center;justify-content:space-between;background:#fff;border:3px solid #000;padding:16px 20px;margin-bottom:12px;box-shadow:6px 6px 0 #000;transition:all .2s}
+    .task.done{opacity:.5}
+    .task .info{display:flex;align-items:center;gap:14px}
+    .task .info .ttl{font-size:14px;font-weight:800;color:#000}
+    .task .info .sub{font-size:11px;color:#bbb;margin-top:2px}
+    .task .right{display:flex;align-items:center;gap:14px}
+    .task .right .rw{font-size:17px;font-weight:900;color:#000}
+    .task .right button{padding:9px 20px;border:none;font-size:11px;font-weight:800;font-family:inherit;cursor:pointer;text-transform:uppercase;letter-spacing:1px;transition:all .3s;background:#000;color:#fff}
+    .task .right button:hover{background:#ffd600;color:#000;box-shadow:4px 4px 0 rgba(0,0,0,.1)}
+    .task .right button.verify{background:#ffd600;color:#000}
+    .task .right button.verify:hover{background:#000;color:#fff}
+    .task .right button:disabled{background:#eee;color:#ccc;cursor:not-allowed;box-shadow:none}
+    .task .right button:disabled:hover{background:#eee;color:#ccc}
+
+    .empty{text-align:center;padding:50px 20px;background:#fff;border:3px solid #000;box-shadow:8px 8px 0 #000}
+    .empty p{font-size:14px;font-weight:700;color:#ccc}
+    .all-done{display:inline-block;padding:6px 14px;background:#000;color:#ffd600;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1px}
+
+    @media(max-width:620px){
+      .header{padding:4px 16px}.header .left span{display:none}.main{padding:24px 12px 40px}
+      .top{flex-direction:column;align-items:start;gap:6px}
+      .task{flex-direction:column;align-items:start;gap:10px}
+      .task .right{width:100%;justify-content:space-between}
+    }
+  </style>
+</head>
+<body>
+<div class="header">
+  <div class="left"><img src="logo.png" alt="Ad Meva"><span>AD MEVA</span></div>
+  <div class="right"><span class="user-name" id="userNameDisplay"></span><a href="dashboard.html" class="back-link">Dashboard</a></div>
+</div>
+<div class="main">
+  <div class="top">
+    <h1>Tasks</h1>
+    <div class="earn">Today: <span id="todayEarnings">₹0</span></div>
+  </div>
+
+  <div class="cat-row" id="catRow"></div>
+  <div id="taskList"></div>
+</div>
+<script>
+  const sessionEmail = localStorage.getItem('admeva_session');
+  if (!sessionEmail) { window.location.href = 'signup.html'; }
+  const data = localStorage.getItem('admeva_user_' + sessionEmail);
+  if (!data) { localStorage.removeItem('admeva_session'); window.location.href = 'signup.html'; }
+  const user = JSON.parse(data);
+  document.getElementById('userNameDisplay').textContent = user.name;
+
+  const AD_LIMIT = 15;
+  const AD_URL = 'https://omg10.com/4/11252434';
+
+  const allTasks = [
+    {id:'cat1',title:'Follow @dontcopy_my_official_id0',sub:'Follow & earn instantly',reward:5,url:'https://www.tiktok.com/@dontcopy_my_official_id0?_r=1&_t=ZT-97pWP6b6QSz',category:'Follow'},
+    {id:'like1',title:'Like Video 1',sub:'Double tap to earn big',reward:3,url:'https://www.tiktok.com/t/ZTSHsHJMf/',category:'Like'},
+    {id:'like2',title:'Like Video 2',sub:'Show some love get paid',reward:3,url:'https://www.tiktok.com/t/ZTSHsSJ9H/',category:'Like'},
+    {id:'like3',title:'Like Video 3',sub:'Like & win rewards',reward:3,url:'https://www.tiktok.com/t/ZTSHsYDWP/',category:'Like'}
+  ];
+
+  const todayStr = new Date().toDateString();
+
+  if (!user.dailyTasks) user.dailyTasks = {};
+  if (!user.dailyAds) user.dailyAds = {};
+  if (!user.dailyEarnings) user.dailyEarnings = {};
+  const openedSet = new Set();
+  let activeCat = 'All';
+
+  function getTodayDone() { return new Set(user.dailyTasks[todayStr] || []); }
+  function getTodayAdsDone() { return user.dailyAds[todayStr] || []; }
+  function isAdDone(idx) { return getTodayAdsDone().includes(idx); }
+  function getAdsLeft() { return Math.max(0, AD_LIMIT - getTodayAdsDone().length); }
+
+  const adSubs = [
+    'Double your earnings!','Quick 5-sec reward','Bonus cash waiting',
+    'Watch & earn big','Easy money drop','Flash earning boost',
+    'Daily bonus treat','Lucky reward time','Super fast cash',
+    'Mega earning spin','Instant money ad','Extra reward blast',
+    'Special offer vip','Fast track profit','Jackpot earnings'
+  ];
+
+  function getAdTasks() {
+    const adsDone = getTodayAdsDone();
+    const items = [];
+    for (let i = 1; i <= AD_LIMIT; i++) {
+      const done = adsDone.includes(i);
+      items.push({
+        id: 'ad_' + i,
+        adIndex: i,
+        title: 'Watch Ad #' + i,
+        sub: done ? 'Claimed - ₹1' : adSubs[i-1],
+        reward: 1,
+        url: AD_URL,
+        isAd: true
+      });
+    }
+    return items;
+  }
+
+  function renderCats() {
+    const todayDone = getTodayDone();
+    const cats = ['All', ...new Set(allTasks.map(t => t.category)), 'Ads'];
+    document.getElementById('catRow').innerHTML = cats.map(c => {
+      if (c === 'All') {
+        const total = allTasks.length + AD_LIMIT;
+        const regDone = allTasks.filter(t => todayDone.has(t.id)).length;
+        const adDone = getTodayAdsDone().length;
+        const doneC = regDone + adDone;
+        return '<button class="cat-btn' + (activeCat === c ? ' active' : '') + '" data-cat="' + c + '">All <span class="cnt">' + doneC + '/' + total + '</span></button>';
+      } else if (c === 'Ads') {
+        const left = getAdsLeft();
+        return '<button class="cat-btn' + (activeCat === c ? ' active' : '') + '" data-cat="' + c + '">Ads <span class="cnt">' + left + '/' + AD_LIMIT + '</span></button>';
+      } else {
+        const ct = allTasks.filter(t => t.category === c);
+        const cd = ct.filter(t => todayDone.has(t.id));
+        return '<button class="cat-btn' + (activeCat === c ? ' active' : '') + '" data-cat="' + c + '">' + c + ' <span class="cnt">' + cd.length + '/' + ct.length + '</span></button>';
+      }
+    }).join('');
+    document.querySelectorAll('.cat-btn').forEach(b => b.addEventListener('click', function() {
+      activeCat = this.dataset.cat; renderCats(); renderTasks();
+    }));
+  }
+
+  function renderTasks() {
+    const tk = new Date().toDateString();
+    document.getElementById('todayEarnings').textContent = '₹' + ((user.dailyEarnings && user.dailyEarnings[tk]) || 0);
+
+    let items = [];
+    if (activeCat === 'All') {
+      items = [...allTasks, ...getAdTasks()];
+      items.sort(() => Math.random() - 0.5);
+    } else if (activeCat === 'Ads') {
+      items = getAdTasks();
+    } else {
+      items = allTasks.filter(t => t.category === activeCat);
+    }
+
+    const container = document.getElementById('taskList');
+    if (items.length === 0) {
+      container.innerHTML = '<div class="empty"><p>' + (activeCat === 'Ads' ? 'All 15 ads done for today! Come back tomorrow.' : 'No tasks in this category.') + '</p></div>'; return;
+    }
+
+    const todayDone = getTodayDone();
+    const todayAdsDone = getTodayAdsDone();
+
+    let html = '';
+    items.forEach(t => {
+      const isDone = t.isAd ? todayAdsDone.includes(t.adIndex) : todayDone.has(t.id);
+      const isOpen = openedSet.has(t.id);
+
+      let btnHtml = '';
+      if (isDone) {
+        btnHtml = '<button disabled>Done</button>';
+      } else if (t.isAd && isOpen) {
+        btnHtml = '<button class="verify" data-ad="1" data-adidx="' + t.adIndex + '" data-rw="' + t.reward + '">Verify</button>';
+      } else if (t.isAd) {
+        btnHtml = '<button class="open-btn" data-ad="1" data-adidx="' + t.adIndex + '" data-url="' + t.url + '">Open Link</button>';
+      } else if (isOpen) {
+        btnHtml = '<button class="verify" data-id="' + t.id + '" data-rw="' + t.reward + '">Verify</button>';
+      } else {
+        btnHtml = '<button class="open-btn" data-url="' + t.url + '" data-id="' + t.id + '">Open Link</button>';
+      }
+
+      html += '<div class="task' + (isDone ? ' done' : '') + '">' +
+        '<div class="info"><div><div class="ttl">' + t.title + '</div><div class="sub">' + t.sub + '</div></div></div>' +
+        '<div class="right"><div class="rw">₹' + t.reward + '</div>' + btnHtml + '</div></div>';
+    });
+    container.innerHTML = html;
+
+    container.querySelectorAll('.open-btn[data-ad]').forEach(b => b.addEventListener('click', function() {
+      openedSet.add('ad_' + this.dataset.adidx);
+      window.open(this.dataset.url, '_blank');
+      renderTasks();
+    }));
+
+    container.querySelectorAll('.open-btn:not([data-ad])').forEach(b => b.addEventListener('click', function() {
+      openedSet.add(this.dataset.id);
+      window.open(this.dataset.url, '_blank');
+      renderTasks();
+    }));
+
+    container.querySelectorAll('.verify[data-ad]').forEach(b => b.addEventListener('click', function() {
+      const rw = parseInt(this.dataset.rw);
+      const adIdx = parseInt(this.dataset.adidx);
+      const tk3 = new Date().toDateString();
+      const adsDone = user.dailyAds[tk3] || [];
+      if (adsDone.length >= AD_LIMIT || adsDone.includes(adIdx)) { renderCats(); renderTasks(); return; }
+      this.textContent = 'Wait...'; this.disabled = true;
+      setTimeout(() => {
+        if (!user.dailyAds[tk3]) user.dailyAds[tk3] = [];
+        if (!user.dailyAds[tk3].includes(adIdx)) user.dailyAds[tk3].push(adIdx);
+        if (!user.transactions) user.transactions = [];
+        user.transactions.push({amount:rw, desc:'Ad watched #' + adIdx, type:'earning', date:new Date().toISOString(), status:'completed'});
+        user.balance = (user.balance||0) + rw;
+        user.totalEarned = (user.totalEarned||0) + rw;
+        user.tasksDone = (user.tasksDone||0) + 1;
+        user.dailyEarnings[tk3] = (user.dailyEarnings[tk3]||0) + rw;
+        localStorage.setItem('admeva_user_'+sessionEmail, JSON.stringify(user));
+        renderCats(); renderTasks();
+      }, 1000 + Math.floor(Math.random()*3000));
+    }));
+
+    container.querySelectorAll('.verify:not([data-ad])').forEach(b => b.addEventListener('click', function() {
+      const id = this.dataset.id, rw = parseInt(this.dataset.rw);
+      const tk3 = new Date().toDateString();
+      const todayDone2 = getTodayDone();
+      if (todayDone2.has(id)) { renderCats(); renderTasks(); return; }
+      this.textContent = 'Wait...'; this.disabled = true;
+      setTimeout(() => {
+        if (!user.dailyTasks[tk3]) user.dailyTasks[tk3] = [];
+        if (!user.dailyTasks[tk3].includes(id)) user.dailyTasks[tk3].push(id);
+        if (!user.transactions) user.transactions = [];
+        user.transactions.push({amount:rw, desc:'Task: '+allTasks.find(t=>t.id===id).title, type:'earning', date:new Date().toISOString(), status:'completed'});
+        user.balance = (user.balance||0) + rw;
+        user.totalEarned = (user.totalEarned||0) + rw;
+        user.tasksDone = (user.tasksDone||0) + 1;
+        user.dailyEarnings[tk3] = (user.dailyEarnings[tk3]||0) + rw;
+        localStorage.setItem('admeva_user_'+sessionEmail, JSON.stringify(user));
+        renderCats(); renderTasks();
+      }, 1000 + Math.floor(Math.random()*3000));
+    }));
+  }
+
+  renderCats();
+  renderTasks();
+</script>
+</body>
+</html>
